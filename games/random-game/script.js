@@ -14,13 +14,18 @@ const player1 = document.querySelector('.player--1');
 const player1Score = document.querySelector('#score--1');
 const player1Current = document.querySelector('#current--1');
 
+const rollAudio = document.querySelector('.dice-roll-audio');
+const holdAudio = document.querySelector('.hold-audio');
+
 let currentPlayer = 0;
 
 startGame();
 
 function rollDice() {
+  rollAudio.currentTime = 0;
+  rollAudio.play();
   const random = Math.trunc(Math.random() * 6) + 1;
-  dice.src = `dice-${random}.png`;
+  dice.src = `images/dice-${random}.png`;
   dice.classList.remove('hidden');
 
   let currentActivePlayer = document.querySelector(
@@ -38,6 +43,8 @@ function rollDice() {
 }
 
 function hold() {
+  holdAudio.currentTime = 0;
+  holdAudio.play();
   let currentScore = document.querySelector(`#current--${currentPlayer}`);
   let totalScore = document.querySelector(`#score--${currentPlayer}`);
 
@@ -56,6 +63,8 @@ function switchPlayer() {
 
 function startGame() {
   currentPlayer = 0;
+  btnHold.disabled = false;
+  btnRoll.disabled = false;
 
   document.querySelector(`.player--active`).classList.remove('player--active');
 
@@ -76,6 +85,9 @@ function startGame() {
 }
 
 function resetGame() {
+  holdAudio.currentTime = 0;
+  holdAudio.play();
+  player1.classList.remove('player--active');
   startGame();
 }
 
