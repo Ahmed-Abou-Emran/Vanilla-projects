@@ -13,8 +13,6 @@ for (let i = 0; i < numCount; i++) {
   numbers.push(num);
 }
 
-console.log(numbers);
-
 // Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
@@ -93,6 +91,24 @@ const displayMovements = movements => {
   });
   containerMovements.appendChild(fragment);
 };
+
+const calculateTotalBalance = movements => {
+  if (!Array.isArray(movements)) {
+    throw new Error('Invalid input');
+  }
+  return movements.reduce((total, movement) => total + movement, 0);
+};
+
+const displayBalance = movements => {
+  try {
+    const balance = calculateTotalBalance(movements);
+    labelBalance.textContent = `${balance}€`;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+displayBalance(account1.movements);
 
 // v2 - using insertAdjacentHTML in each iteration
 // const displayMovements = movements => {
