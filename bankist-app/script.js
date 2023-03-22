@@ -3,6 +3,17 @@
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
+const min = -10000;
+const max = 10000;
+const numCount = 10000;
+const numbers = [];
+
+for (let i = 0; i < numCount; i++) {
+  const num = Math.floor(Math.random() * (max - min + 1) + min);
+  numbers.push(num);
+}
+
+console.log(numbers);
 
 // Data
 const account1 = {
@@ -61,6 +72,47 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+// v1 - using Fragments
+
+const displayMovements = movements => {
+  containerMovements.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+  movements.forEach((movement, i) => {
+    const movementType = movement > 0 ? 'withdrawal' : `deposit`;
+    const date = new Date().toLocaleDateString('en-US');
+
+    const html = `
+    <div class="movements__row">
+          <div class="movements__type movements__type--${movementType}">${i} ${movementType}</div>
+          <div class="movements__date">3 days ago</div>
+          <div class="movements__value">${movement}€</div>
+    </div>`;
+    const div = document.createElement('div');
+    div.insertAdjacentHTML('afterbegin', html);
+    fragment.appendChild(div);
+  });
+  containerMovements.appendChild(fragment);
+};
+
+// v2 - using insertAdjacentHTML in each iteration
+// const displayMovements = movements => {
+//   containerMovements.innerHTML = '';
+//   movements.forEach((movement, i) => {
+//     const movementType = movement > 0 ? 'withdrawal' : `deposit`;
+//     const date = new Date().toLocaleDateString('en-US');
+
+//     const html = `
+//     <div class="movements__row">
+//           <div class="movements__type movements__type--${movementType}">${i} ${movementType}</div>
+//           <div class="movements__date">3 days ago</div>
+//           <div class="movements__value">${movement}€</div>
+//     </div>`;
+//     containerMovements.insertAdjacentHTML('afterbegin', html);
+//   });
+// };
+
+// displayMovements(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -74,3 +126,12 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+// Measure performance of displayMovements function
+const startTime = performance.now();
+
+displayMovements(account1.movements);
+
+const endTime = performance.now();
+const elapsedTime = endTime - startTime;
+console.log(`Elapsed time: ${elapsedTime} ms`);
