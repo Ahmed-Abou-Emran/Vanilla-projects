@@ -110,6 +110,26 @@ const displayBalance = movements => {
 
 displayBalance(account1.movements);
 
+const displaySumary = (movements, interestRate) => {
+  const ins = movements
+    .filter(movement => movement > 0)
+    .reduce((total, movement) => total + movement, 0);
+  const outs = movements
+    .filter(movement => movement < 0)
+    .reduce((total, movement) => total + movement, 0);
+  const interest = Math.floor(
+    movements
+      .map(movement => (movement * interestRate) / 100)
+      .filter(interest => interest > 1)
+      .reduce((total, interest) => total + interest, 0)
+  );
+
+  labelSumIn.textContent = `${ins}€`;
+  labelSumOut.textContent = `${Math.abs(outs)}€`;
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+displaySumary(account1.movements, 1.2);
 // v2 - using insertAdjacentHTML in each iteration
 // const displayMovements = movements => {
 //   containerMovements.innerHTML = '';
