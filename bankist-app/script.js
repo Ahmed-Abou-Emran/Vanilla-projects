@@ -108,8 +108,6 @@ const displayBalance = movements => {
   }
 };
 
-displayBalance(account1.movements);
-
 const displaySumary = (movements, interestRate) => {
   const ins = movements
     .filter(movement => movement > 0)
@@ -129,8 +127,56 @@ const displaySumary = (movements, interestRate) => {
   labelSumInterest.textContent = `${interest}€`;
 };
 
-displaySumary(account1.movements, 1.2);
-// v2 - using insertAdjacentHTML in each iteration
+const createUsernmaes = accounts => {
+  accounts
+    .map(account =>
+      account.owner
+        .split(' ')
+        .map(name => name[0])
+        .join('')
+        .toLowerCase()
+    )
+    .forEach((username, i) => (accounts[i].username = username));
+
+  console.log(accounts);
+};
+
+createUsernmaes(accounts);
+
+const getUser = () => {
+  const inputUser = inputLoginUsername.value;
+  const inputPin = Number(inputLoginPin.value);
+
+  console.log(inputUser + inputPin);
+  const user = accounts.find(account => {
+    const isValid = account.username === inputUser && account.pin === inputPin;
+    return isValid;
+  });
+  return user;
+};
+
+console.log(getUser());
+
+const updateUI = account => {
+  displayMovements(account.movements);
+  displayBalance(account.movements);
+  displaySumary(account.movements, account.interestRate);
+};
+
+btnLogin.addEventListener('click', e => {
+  e.preventDefault();
+  const user = getUser();
+  if (user) {
+    labelWelcome.textContent = `Welcome back, ${user.owner.split(' ')[0]}`;
+    containerApp.style.opacity = 100;
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur(); // clear currsor from inputPin field
+    updateUI(user);
+  }
+  console.log(user);
+});
+
+// v2 for displayMovements - using insertAdjacentHTML in each iteration
 // const displayMovements = movements => {
 //   containerMovements.innerHTML = '';
 //   movements.forEach((movement, i) => {
