@@ -23,3 +23,14 @@ To get started with the project, clone the repository to your local machine and 
 ## Credits
 
 This game was implemented as part of the "Complete JavaScript Course" by Jonas Schmedtmann on Udemy.
+
+## Future Improvements
+
+- [ ] Add difficulty levels
+- [ ] Add a timer
+- [ ] Add multiplayer mode
+- [ ] Add sound effects
+- [ ] Add a leaderboard
+- [ ] Add hints
+- [ ] Add animations
+- [ ] Add power-ups
