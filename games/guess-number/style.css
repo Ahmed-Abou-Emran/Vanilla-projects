@@ -38,6 +38,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 }
 
 .right {
@@ -56,6 +57,15 @@ h1 {
   transform: translate(-50%, -50%);
 }
 
+.difficulty-options {
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+.difficulty {
+  font-size: 1.8rem;
+}
 .number {
   background: #eee;
   color: #333;
