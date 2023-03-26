@@ -13,12 +13,12 @@ To get started with the project, clone the repository to your local machine and 
 ## How to Play
 
 1. Enter a number between 1 and 20 in the input field.
+2. You can choose the difficulty level by seelecting dropdown menu and choosing the level which will determine the number of attempts you have to guess the correct number and the range of numbers you can guess from.
+3. Click the "Check" button.
+4. If your guess is correct, you win! Otherwise, try again and the game will tell you whether your guess was too high or too low.
+5. You can play the game as many times as you want by clicking the "Again" button.
 
-2. Click the "Check" button.
-
-3. If your guess is correct, you win! Otherwise, try again and the game will tell you whether your guess was too high or too low.
-
-4. You can play the game as many times as you want by clicking the "Again" button.
+![Game view](game-view.png)
 
 ## Credits
 
@@ -26,7 +26,7 @@ This game was implemented as part of the "Complete JavaScript Course" by Jonas S
 
 ## Future Improvements
 
-- [ ] Add difficulty levels
+- [x] Add difficulty levels
 - [ ] Add a timer
 - [ ] Add multiplayer mode
 - [ ] Add sound effects
