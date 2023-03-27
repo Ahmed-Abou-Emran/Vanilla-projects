@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate Canvas</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas class="canvas"></canvas>
+
+    <script>
+
+        const canvas = document.querySelector('.canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+
+        function getRadnomColor() {
+            return `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+
+
+
+        class Circle {
+            constructor(x, y, dx, dy, radius, fillColor, closing) {
+                this.x = x;
+                this.y = y;
+                this.dx = dx;
+                this.dy = dy;
+                this.radius = radius;
+                this.fillColor = fillColor;
+
+                this.start = 1 / 4;
+                this.end = 7 / 4;
+                this.closing = closing;
+            }
+            draw() {
+
+                // ctx.beginPath();
+                // ctx.arc(this.x, this.y, this.radius, Math.PI * 0, Math.PI * 3 / 2, false);
+                // ctx.strokeStyle = this.fillColor;
+                // ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, Math.PI * this.start / 4, Math.PI * this.end, false);
+                ctx.lineTo(this.x, this.y);
+                ctx.closePath();
+                ctx.fillStyle = 'red';
+                ctx.fill();
+
+                // ctx.fillStyle = this.fillColor;
+                // ctx.fill();
+            }
+
+            update() {
+                if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                    this.dx = -this.dx;
+                }
+
+                if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                    this.dy = -this.dy;
+                }
+
+                this.x += this.dx;
+                this.y += this.dy;
+
+                if (this.end >= 2.15) {
+                    this.closing = -Math.abs(this.closing);
+                } else if (this.end <= 7 / 4) {
+                    this.closing = Math.abs(this.closing);
+                }
+
+                this.end += this.closing;
+
+                // if (this.end >= 2 && this.closing > 0) {
+                //     this.closing = -this.closing;
+                // } else if (this.end <= 7 / 4 && this.closing < 0) {
+                //     this.closing = -this.closing;
+                // }
+
+
+
+
+                this.draw();
+            }
+        }
+
+        let circleArray = [];
+
+        for (let i = 0; i < 10; i++) {
+            let radius = Math.random() * 100 + 1;
+            let x = Math.random() * (window.innerWidth - radius * 2) + radius;
+            let y = Math.random() * (innerHeight - radius * 2) + radius;
+            let dx = (Math.random() - 0.5) * 8;
+            let dy = (Math.random() - 0.5) * 8;
+            let fillColor = getRadnomColor();
+
+            circleArray.push(new Circle(x, y, dx, dy, radius, fillColor, 0.01));
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            for (let i = 0; i < circleArray.length; i++) {
+                circleArray[i].update();
+            }
+        }
+
+
+        animate();
+    </script>
+</body>
+
+
+</html>
