@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Shapes Tutorial</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* body {
+            overflow: hidden;
+        } */
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* border: 2px solid red; */
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const ctx = canvas.getContext('2d');
+        // // draw a line from (0,0) to (200,100)
+        // ctx.beginPath();
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(200, 100);
+        // ctx.stroke();
+
+        // // draw a rectangle at (50,50)
+        // ctx.beginPath();
+        // ctx.rect(50, 50, 100, 200);
+        // ctx.stroke();
+
+        // // drawing an arc
+        // ctx.beginPath();
+        // ctx.arc(100, 100, 50, 2 * Math.PI, 1.2 * Math.PI, true);
+        // ctx.stroke();
+
+        // // draw a circle at (500,500) with radius 50
+        // // ctx.beginPath();
+        // // ctx.fillStyle = 'red';
+        // // ctx.arc(500, 500, 50, 0, 2 * Math.PI);
+        // // ctx.fill();
+
+        function getRadnomColor() {
+            return `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+
+        function drawCircle(x, y, radius, fillColor) {
+            ctx.beginPath();
+            console.log(fillColor);
+            ctx.fillStyle = fillColor;
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);
+            ctx.fill();
+
+        }
+
+        function drawRectangle(x, y, width, height, fillColor) {
+            ctx.beginPath();
+            ctx.fillStyle = fillColor;
+            ctx.rect(x, y, width, height);
+            ctx.fill();
+
+        }
+
+
+        function generateCircles(num, radius) {
+            let color;
+            for (let i = 0; i <= num; i++) {
+                let x = Math.floor(Math.random() * window.innerWidth);
+                let y = Math.floor(Math.random() * window.innerHeight);
+                color = getRadnomColor();
+                drawCircle(x, y, radius, color);
+                // console.log(color);
+
+            }
+        }
+        function generateRectangles(num, width, height) {
+            let color;
+            for (let i = 0; i <= num; i++) {
+                let x = Math.floor(Math.random() * window.innerWidth);
+                let y = Math.floor(Math.random() * window.innerHeight);
+                color = getRadnomColor();
+                drawRectangle(x, y, width, height, color);
+                // console.log(color);
+
+            }
+        }
+
+
+
+
+
+
+
+        generateCircles(40, 20);
+        generateCircles(30, 30);
+        generateCircles(20, 40);
+
+        generateRectangles(40, 5, 5);
+        generateRectangles(30, 30, 20);
+        generateRectangles(20, 40, 30);
+
+
+    </script>
+</body>
+
+</html>
