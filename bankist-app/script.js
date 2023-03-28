@@ -45,6 +45,7 @@ const account4 = {
 const accounts = [account1, account2, account3, account4];
 
 // Elements
+
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -92,17 +93,22 @@ const displayMovements = movements => {
   containerMovements.appendChild(fragment);
 };
 
-const calculateTotalBalance = movements => {
+const calculateTotalBalance = account => {
   if (!Array.isArray(movements)) {
     throw new Error('Invalid input');
   }
-  return movements.reduce((total, movement) => total + movement, 0);
+  const balance = account.movements.reduce(
+    (total, movement) => total + movement,
+    0
+  );
+  currentAccount.balance = balance;
+  return balance;
 };
 
-const displayBalance = movements => {
+const displayBalance = account => {
   try {
-    const balance = calculateTotalBalance(movements);
-    labelBalance.textContent = `${balance}€`;
+    calculateTotalBalance(account);
+    labelBalance.textContent = `${account.balance}€`;
   } catch (error) {
     console.error(error);
   }
@@ -147,33 +153,57 @@ const getUser = () => {
   const inputUser = inputLoginUsername.value;
   const inputPin = Number(inputLoginPin.value);
 
-  console.log(inputUser + inputPin);
   const user = accounts.find(account => {
     const isValid = account.username === inputUser && account.pin === inputPin;
     return isValid;
   });
+
   return user;
 };
 
-console.log(getUser());
-
-const updateUI = account => {
-  displayMovements(account.movements);
-  displayBalance(account.movements);
-  displaySumary(account.movements, account.interestRate);
+const updateUI = currentAccount => {
+  displayMovements(currentAccount.movements);
+  displayBalance(currentAccount);
+  displaySumary(currentAccount.movements, currentAccount.interestRate);
 };
 
+let currentAccount = null;
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
-  const user = getUser();
-  if (user) {
-    labelWelcome.textContent = `Welcome back, ${user.owner.split(' ')[0]}`;
+  currentAccount = getUser();
+  updateUI(currentAccount);
+  if (currentAccount) {
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
     containerApp.style.opacity = 100;
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur(); // clear currsor from inputPin field
-    updateUI(user);
   }
-  console.log(user);
+});
+
+let receiverAccount = null;
+
+btnTransfer.addEventListener('click', e => {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  receiverAccount = accounts.find(
+    account => account.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+  if (
+    amount > 0 &&
+    receiverAccount &&
+    currentAccount.balance >= amount &&
+    receiverAccount?.username !== currentAccount?.username
+  ) {
+    console.log('Transfer valid');
+    currentAccount.movements.push(-amount);
+    receiverAccount.movements.push(amount);
+    updateUI(currentAccount);
+  } else {
+    console.log('Transfer invalid');
+  }
 });
 
 // v2 for displayMovements - using insertAdjacentHTML in each iteration
