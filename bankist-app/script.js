@@ -206,6 +206,23 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+btnClose.addEventListener('click', e => {
+  e.preventDefault();
+  const inputUser = inputCloseUsername.value;
+  const inputPin = Number(inputClosePin.value);
+  const isCurrentUser =
+    inputUser === currentAccount.username && inputPin === currentAccount.pin;
+
+  if (isCurrentUser) {
+    const index = accounts.findIndex(
+      account => account.username === currentAccount.username
+    );
+    accounts.splice(index, 1);
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+  containerApp.style.opacity = 0;
+});
+
 // v2 for displayMovements - using insertAdjacentHTML in each iteration
 // const displayMovements = movements => {
 //   containerMovements.innerHTML = '';
