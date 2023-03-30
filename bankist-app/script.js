@@ -237,6 +237,17 @@ btnClose.addEventListener('click', e => {
   containerApp.style.opacity = 0;
 });
 
+let isSorted = false;
+
+btnSort.addEventListener('click', e => {
+  const sortedMovements = currentAccount.movements
+    .slice()
+    .sort((a, b) => a - b);
+  e.preventDefault();
+  displayMovements(isSorted ? currentAccount.movements : sortedMovements);
+  isSorted = !isSorted;
+});
+
 // v2 for displayMovements - using insertAdjacentHTML in each iteration
 // const displayMovements = movements => {
 //   containerMovements.innerHTML = '';
