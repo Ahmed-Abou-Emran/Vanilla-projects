@@ -77,7 +77,7 @@ const displayMovements = movements => {
   containerMovements.innerHTML = '';
   const fragment = document.createDocumentFragment();
   movements.forEach((movement, i) => {
-    const movementType = movement > 0 ? 'withdrawal' : `deposit`;
+    const movementType = movement > 0 ? 'deposit' : `withdrawal`;
     const date = new Date().toLocaleDateString('en-US');
 
     const html = `
@@ -206,6 +206,19 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (
+    amount > 0 &&
+    currentAccount.movements.some(movement => movement >= amount * 0.1)
+  ) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
 btnClose.addEventListener('click', e => {
   e.preventDefault();
   const inputUser = inputCloseUsername.value;
@@ -219,6 +232,7 @@ btnClose.addEventListener('click', e => {
     );
     accounts.splice(index, 1);
   }
+  labelWelcome.textContent = `Log in to get started`;
   inputCloseUsername.value = inputClosePin.value = '';
   containerApp.style.opacity = 0;
 });
