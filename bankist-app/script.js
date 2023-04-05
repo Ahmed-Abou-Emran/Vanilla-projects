@@ -129,13 +129,14 @@ const displayBalance = account => {
 };
 
 const displaySumary = (movements, interestRate) => {
-  const ins = movements
+  const ins = Math.round(movements
     .filter(movement => movement > 0)
-    .reduce((total, movement) => total + movement, 0);
-  const outs = movements
+    .reduce((total, movement) => total + movement, 0));
+  const outs = Math.round(movements
     .filter(movement => movement < 0)
-    .reduce((total, movement) => total + movement, 0);
-  const interest = Math.floor(
+    .reduce((total, movement) => total + movement, 0));
+
+  const interest = Math.round(
     movements
       .map(movement => (movement * interestRate) / 100)
       .filter(interest => interest > 1)
