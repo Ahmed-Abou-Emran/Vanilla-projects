@@ -22,6 +22,15 @@ A simple two-player game where players take turns rolling dice and trying to rea
 
 ![Random Game](/assets/random-game.png)
 
+
+### Interactive Canvas
+
+![interactive Canvas](https://github.com/Ahmed-Abou-Emran/Vanilla-projects/assets/64327685/14a0bb6f-e7d0-4378-9e98-60564bd8d584)
+
+### Interactive Particles
+
+![Interactive Particles](https://github.com/Ahmed-Abou-Emran/Vanilla-projects/assets/64327685/f38ee37d-50f0-4a08-a274-03c41f253cf9)
+
 ## How to Run the Projects
 
 To run each project, simply clone this repository and open the corresponding HTML file in your web browser.
